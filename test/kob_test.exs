@@ -9,21 +9,21 @@ defmodule KobTest do
           fn conn ->
             conn = [1 | conn]
             conn = next.(conn)
-            conn = [7 | conn]
+            [7 | conn]
           end
         end,
         fn next ->
           fn conn ->
             conn = [2 | conn]
             conn = next.(conn)
-            conn = [6 | conn]
+            [6 | conn]
           end
         end,
         fn next ->
           fn conn ->
             conn = [3 | conn]
             conn = next.(conn)
-            conn = [5 | conn]
+            [5 | conn]
           end
         end
       ])

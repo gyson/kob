@@ -12,9 +12,9 @@ defmodule Kob do
   Compose a list of middlewares into one middleware.
   """
   @spec compose([middleware]) :: middleware
-  def compose(mws) when is_list(mws) do
+  def compose(middlewares) when is_list(middlewares) do
     fn next ->
-      mws
+      middlewares
       |> Enum.reverse()
       |> Enum.reduce(next, fn prev, next ->
         prev.(next)
@@ -40,8 +40,8 @@ defmodule Kob do
   Append a middleware to Kob struct.
   """
   @spec use(t, middleware) :: t
-  def use(%Kob{mws: mws}, mw) do
-    %Kob{mws: [mw | mws]}
+  def use(%Kob{mws: mws}, middleware) do
+    %Kob{mws: [middleware | mws]}
   end
 
   @doc """

@@ -4,7 +4,7 @@ defmodule Kob.MixProject do
   def project do
     [
       app: :kob,
-      version: "0.1.0",
+      version: "0.1.1",
       description: "Another way to compose Plugs",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
@@ -26,6 +26,7 @@ defmodule Kob.MixProject do
   defp deps do
     [
       {:plug_cowboy, "~> 2.0", only: [:dev]},
+      {:ex_doc, "~> 0.19", only: :dev, runtime: false},
       {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false}
     ]
   end
