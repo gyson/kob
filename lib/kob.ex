@@ -8,6 +8,9 @@ defmodule Kob do
 
   @type middleware :: (handler -> handler)
 
+  @doc """
+  Compose a list of middlewares into one middleware.
+  """
   @spec compose([middleware]) :: middleware
   def compose(mws) when is_list(mws) do
     fn next ->
@@ -25,45 +28,25 @@ defmodule Kob do
 
   defstruct mws: []
 
+  @doc """
+  Create an empty Kob struct.
+  """
   @spec new() :: t
   def new() do
     %Kob{mws: []}
   end
 
+  @doc """
+  Append a middleware to Kob struct.
+  """
   @spec use(t, middleware) :: t
   def use(%Kob{mws: mws}, mw) do
     %Kob{mws: [mw | mws]}
   end
 
-  @spec handle(handler) :: middleware
-  def handle(f) do
-    fn _ -> f end
-  end
-
-  @spec through(handler) :: middleware
-  def through(f) do
-    fn next ->
-      fn conn ->
-        next.(f.(conn))
-      end
-    end
-  end
-
-  @spec switch((Plug.Conn.t() -> boolean), middleware) :: middleware
-  def switch(condition, middleware) do
-    fn next ->
-      other = middleware.(next)
-
-      fn conn ->
-        if condition.(conn) do
-          other.(conn)
-        else
-          next.(conn)
-        end
-      end
-    end
-  end
-
+  @doc """
+  Convert a Plug to Kob middleware.
+  """
   @spec plug(Plug.Builder.plug(), Plug.opts()) :: middleware
   def plug(plug, opts \\ []) when is_atom(plug) do
     fn next ->
@@ -81,6 +64,9 @@ defmodule Kob do
     end
   end
 
+  @doc """
+  Create a Kob middleware from Kob struct.
+  """
   @spec to_middleware(t) :: middleware
   def to_middleware(%Kob{mws: mws}) do
     mws
@@ -88,11 +74,17 @@ defmodule Kob do
     |> compose()
   end
 
+  @doc """
+  Create a Kob handler from Kob struct.
+  """
   @spec to_handler(t) :: middleware
   def to_handler(%Kob{} = kob) do
     to_middleware(kob).(fn conn -> conn end)
   end
 
+  @doc """
+  Convert a Kob struct to a Plug.
+  """
   @spec register_plug(t, Plug.Builder.plug()) :: :ok
   def register_plug(%Kob{} = kob, plug) when is_atom(plug) do
     :persistent_term.put(plug, to_handler(kob))
