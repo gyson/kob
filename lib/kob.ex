@@ -2,7 +2,6 @@ defmodule Kob do
   @moduledoc """
   Documentation for Kob.
   """
-  # import Plug
 
   @type handler :: (Plug.Conn.t() -> Plug.Conn.t())
 

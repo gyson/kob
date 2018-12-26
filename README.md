@@ -1,6 +1,6 @@
 # Kob
 
-Another way to compose "Plug"s.
+Another way to compose ["Plug"](https://hexdocs.pm/plug/readme.html)s.
 
 ## Rational
 
