@@ -67,7 +67,7 @@ The key design of Kob is two types:
 
 - `@type handler :: (Plug.Conn.t() -> Plug.Conn.t())` : This is similar to Plug, which is the function to handle `Plug.Conn` transformation.
 
-- `@type middleware :: (handler -> handler)` : This is how Kob does composistion. It's a higher order function to chains things together.
+- `@type middleware :: (handler -> handler)` : This is how Kob does composistion. It's a higher order function to chain things together.
 
 This design has a few benefits:
 
