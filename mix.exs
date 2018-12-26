@@ -5,9 +5,13 @@ defmodule Kob.MixProject do
     [
       app: :kob,
       version: "0.1.0",
+      description: "Another way to compose Plugs",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      package: package(),
+      deps: deps(),
+      name: "Kob",
+      source_url: "https://github.com/gyson/kob"
     ]
   end
 
@@ -24,5 +28,12 @@ defmodule Kob.MixProject do
       {:plug_cowboy, "~> 2.0", only: [:dev]},
       {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false}
     ]
+  end
+
+  defp package do
+    %{
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/gyson/kob"}
+    }
   end
 end
